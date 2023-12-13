@@ -8,6 +8,7 @@ function Upload() {
   const [rejectedFiles, setRejectedFiles] = useState([]);
   const [token, setToken] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const [copiedMessageVisible, setCopiedMessageVisible] = useState(false);
   const [isLoading,setIsLoading] =useState(false);
 
   // const handleFileChange = (event) => {
@@ -92,11 +93,17 @@ function Upload() {
     }
   };
 
-  const handleClosePopup = () => {
-    setShowPopup(false);
-  };
+  // const handleClosePopup = () => {
+  //   setShowPopup(false);
+  //   setCopiedMessageVisible(false);
+  // };
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(token);
+    setCopiedMessageVisible(true);
+    setTimeout(() => {
+      setCopiedMessageVisible(false);
+      setShowPopup(false);
+    }, 0.5 * 1000);
   };
 
   const handleCancel = () => {
@@ -213,22 +220,24 @@ function Upload() {
           {/* Pop-up */}
           {showPopup && (
             <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-30 z-10">
-              <div className="bg-white p-8 rounded-md shadow-xl">
-                <div className="text-xl font-semibold mb-3">Token</div>
-                <p>{token}</p>
+              <div className="bg-white w-1/5 h-2/5 rounded-md shadow-xl flex flex-col items-center justify-center gap-4">
+                <div className="text-3xl font-semibold mb-3">Token</div>  
+                {copiedMessageVisible ? (
+                  <div className="text-green-500 text-lg font-normal">Copied to clipboard!</div>
+                ): (<p className="text-xl font-normal">token</p>)}
                 <div className="mt-4">
                   <button
-                    className="bg-blue-700 text-white rounded-md px-3 py-1 mr-3 hover:bg-blue-600"
+                    className="bg-blue-700 text-white rounded-md px-6 py-2  hover:bg-blue-600 shadow-lg hover:shadow-none"
                     onClick={handleCopyToClipboard}
                   >
                     Copy to Clipboard
                   </button>
-                  <button
+                  {/* <button
                     className="bg-gray-300 rounded-md px-3 py-1"
                     onClick={handleClosePopup}
                   >
                     Close
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
