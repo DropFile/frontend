@@ -25,6 +25,7 @@ function Access() {
     event.preventDefault();
 
     axios.get(`${env.BASE_URL}/file?key=${inputToken}`).then((response) => {
+      console.log(JSON.parse(response.data));
       setUploadedFiles(JSON.parse(response.data).data);
     });
   };
