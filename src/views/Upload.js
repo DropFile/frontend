@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 function Upload() {
   const [files, setFiles] = useState([]);
   const [rejectedFiles, setRejectedFiles] = useState([]);
   const [token, setToken] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const [isLoading,setIsLoading] =useState(false);
 
   // const handleFileChange = (event) => {
   //   setFiles([...event.target.files]);
@@ -56,6 +58,7 @@ function Upload() {
   // };
   const handleUpload = () => {
     if (files.length > 0) {
+      setIsLoading(true);
       const formData = new FormData();
 
       for (let i = 0; i < files.length; i++) {
@@ -70,8 +73,20 @@ function Upload() {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then((response) => {
-          console.log(response.data);
+        // .then((response) => {
+        //   console.log(response.data);
+        // });
+        .then((response)=>{
+          setIsLoading(false);
+          setToken(response.data.data.key);
+          setShowPopup(true);
+          setTimeout(()=>{
+            setFiles([]);
+
+          }, 15*60*1000);
+        }).catch((error)=>{
+          setIsLoading(false);
+          console.error("Error uploading files : ", error);
         });
     }
   };
@@ -105,7 +120,9 @@ function Upload() {
   return (
     <div className="h-screen w-full  bg-[#E5F6FF] flex items-center justify-center overflow-auto">
       <div className="flex flex-col text-[#3056D3] mt-4 w-2/5 h-2/3 items-center">
-        <div className="text-5xl font-bold text-center mb-5">FileShare</div>
+        <Link Link to="/">
+          <div className="text-5xl font-bold text-center mb-5">FileShare</div>
+        </Link>
 
         <div className="container mx-auto max-w-screen-lg relative flex flex-col bg-white shadow-xl rounded-md p-8">
           {/* {showUploadSection ? ( */}
@@ -200,7 +217,7 @@ function Upload() {
                 <p>{token}</p>
                 <div className="mt-4">
                   <button
-                    className="bg-blue-700 text-white rounded-md px-3 py-1 mr-3"
+                    className="bg-blue-700 text-white rounded-md px-3 py-1 mr-3 hover:bg-blue-600"
                     onClick={handleCopyToClipboard}
                   >
                     Copy to Clipboard
@@ -215,6 +232,22 @@ function Upload() {
               </div>
             </div>
           )}
+          {/* Loading modal */}
+        {/* {isLoading && (
+          <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-30 z-10">
+            <div className="bg-white p-8 rounded-md shadow-xl">
+              <div className="text-xl font-semibold mb-3">Loading</div>
+              <p>Please wait while the files are being uploaded...</p>
+            </div>
+          </div>
+        )} */}
+        {isLoading && (
+          <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-30 z-10">
+            <div className="p-8 rounded-md ">
+            <div class="border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600" />
+            </div>
+          </div>
+        )}
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import FileModal from "../components/FileModal";
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 function Access() {
   const [inputToken, setInputToken] = useState("");
@@ -45,7 +46,9 @@ function Access() {
   return (
     <div className="h-screen w-full  bg-[#E5F6FF] flex items-center justify-center">
       <div className="flex flex-col text-[#3056D3]  w-4/5 h-4/5 items-center ">
-        <div className="text-5xl font-bold text-center mb-5">FileShare</div>
+        <Link Link to="/">
+          <div className="text-5xl font-bold text-center mb-5">FileShare</div>
+        </Link>
 
         <div className="container h-full mx-auto max-w-screen-lg relative flex flex-col bg-white shadow-xl rounded-md p-8 ">
           <div className="h-full overflow-auto p-8 w-full flex flex-col items-center mb-3 ">
