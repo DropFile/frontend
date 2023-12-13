@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FileModal from "../components/FileModal";
 import axios from "axios";
 import { Link } from 'react-router-dom';
+import env from "../constants";
 
 function Access() {
   const [inputToken, setInputToken] = useState("");
@@ -24,7 +25,7 @@ function Access() {
     event.preventDefault();
 
     axios
-      .get(`http://localhost:8080/file?key=${inputToken}`)
+      .get(`${env.BASE_URL}/file?key=${inputToken}`)
       .then((response) => {
         setUploadedFiles(response.data.data);
       });

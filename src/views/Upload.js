@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from 'react-router-dom';
+import env from "../constants";
 
 function Upload() {
   const [files, setFiles] = useState([]);
@@ -68,7 +69,7 @@ function Upload() {
       formData.append("numberOfFiles", files.length);
 
       axios
-        .post("http://localhost:8080/file", formData, {
+        .post(`${env.BASE_URL}/file`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

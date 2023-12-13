@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Hls from "hls.js";
+import env from "../constants";
 
 const FileModal = ({ token, filename, onClose }) => {
   const videoRef = useRef(null);
@@ -21,7 +22,7 @@ const FileModal = ({ token, filename, onClose }) => {
     if (Hls.isSupported()) {
       const hls = new Hls();
       hls.loadSource(
-        `http://localhost:8080/file/fetch/${token}/${filename}.m3u8`
+        `${env.BASE_URL}/file/fetch/${token}/${filename}.m3u8`
       );
       hls.attachMedia(video);
     }
