@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FileModal from "../components/FileModal";
 import axios from "axios";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import env from "../constants";
 
 function Access() {
@@ -24,11 +24,10 @@ function Access() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    axios
-      .get(`${env.BASE_URL}/file?key=${inputToken}`)
-      .then((response) => {
-        setUploadedFiles(response.data.data);
-      });
+    axios.get(`${env.BASE_URL}/file?key=${inputToken}`).then((response) => {
+      console.log(JSON.parse(response.data));
+      setUploadedFiles(JSON.parse(response.data).data);
+    });
   };
 
   // const viewFile = (fileBlob) => {
