@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import env from "../constants";
 
 function Upload() {
@@ -9,7 +9,7 @@ function Upload() {
   const [token, setToken] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [copiedMessageVisible, setCopiedMessageVisible] = useState(false);
-  const [isLoading,setIsLoading] =useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // const handleFileChange = (event) => {
   //   setFiles([...event.target.files]);
@@ -78,15 +78,15 @@ function Upload() {
         // .then((response) => {
         //   console.log(response.data);
         // });
-        .then((response)=>{
+        .then((response) => {
           setIsLoading(false);
           setToken(response.data.data.key);
           setShowPopup(true);
-          setTimeout(()=>{
+          setTimeout(() => {
             setFiles([]);
-
-          }, 15*60*1000);
-        }).catch((error)=>{
+          }, 15 * 60 * 1000);
+        })
+        .catch((error) => {
           setIsLoading(false);
           console.error("Error uploading files : ", error);
         });
@@ -221,10 +221,14 @@ function Upload() {
           {showPopup && (
             <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-30 z-10">
               <div className="bg-white w-1/5 h-2/5 rounded-md shadow-xl flex flex-col items-center justify-center gap-4">
-                <div className="text-3xl font-semibold mb-3">Token</div>  
+                <div className="text-3xl font-semibold mb-3">Token</div>
                 {copiedMessageVisible ? (
-                  <div className="text-green-500 text-lg font-normal">Copied to clipboard!</div>
-                ): (<p className="text-xl font-normal">token</p>)}
+                  <div className="text-green-500 text-lg font-normal">
+                    Copied to clipboard!
+                  </div>
+                ) : (
+                  <p className="text-xl font-normal">{token}</p>
+                )}
                 <div className="mt-4">
                   <button
                     className="bg-blue-700 text-white rounded-md px-6 py-2  hover:bg-blue-600 shadow-lg hover:shadow-none"
@@ -243,7 +247,7 @@ function Upload() {
             </div>
           )}
           {/* Loading modal */}
-        {/* {isLoading && (
+          {/* {isLoading && (
           <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-30 z-10">
             <div className="bg-white p-8 rounded-md shadow-xl">
               <div className="text-xl font-semibold mb-3">Loading</div>
@@ -251,13 +255,13 @@ function Upload() {
             </div>
           </div>
         )} */}
-        {isLoading && (
-          <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-30 z-10">
-            <div className="p-8 rounded-md ">
-            <div class="border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600" />
+          {isLoading && (
+            <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-30 z-10">
+              <div className="p-8 rounded-md ">
+                <div class="border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600" />
+              </div>
             </div>
-          </div>
-        )}
+          )}
         </div>
       </div>
     </div>
